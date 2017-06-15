@@ -32,3 +32,4 @@ def entries_histogram(turnstile_weather):
 weather_data = pandas.read_csv('turnstile_data_master_with_weather.csv')
 plt = entries_histogram(weather_data)
 plt.plot()
+plt.show()
