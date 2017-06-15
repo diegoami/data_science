@@ -44,7 +44,7 @@ def gradient_descent(features, values, theta, alpha, num_iterations):
     return theta, pandas.Series(cost_history)
 
 
-data = pandas.read_csv('baseball_data.csv')
+data = pandas.read_csv('../t-tests/baseball_data.csv')
 features = data[['height','weight']].fillna(0)
 values = data[['HR']].fillna(0)
 m = len(values)

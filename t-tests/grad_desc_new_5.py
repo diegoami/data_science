@@ -29,7 +29,7 @@ def gradient_descent(features, values, theta, alpha, num_iterations):
     cost_history = []
     m = len(values)
     values_flipped = numpy.array(values).reshape(numpy.size(values,1),numpy.size(values,0))
-    
+
     while count < num_iterations:
         
         if theta is not None:
@@ -37,17 +37,23 @@ def gradient_descent(features, values, theta, alpha, num_iterations):
             predicted_values = numpy.dot(features,theta_flipped)
             theta = theta - (alpha / m ) * numpy.dot((predicted_values - values_flipped),features) 
         else:
-            theta = - (alpha / m) * numpy.dot(-values_flipped,features)
+
+            ndot = numpy.dot(-values_flipped, features.astype(float))
+            theta = - (alpha / m) * ndot
         cost = compute_cost(features, values, theta)
         cost_history.append(cost)
         count = count+1
     return theta, pandas.Series(cost_history)
 
+MAX_SIZE = 100
+MAX_ITER = 50
 data = pandas.read_csv('baseball_stats.csv')
-features = data[['height','weight']].fillna(0)
-values = data[['avg']].fillna(0)
+features_s = data.loc[0:MAX_SIZE,['height','weight']].fillna(0)
+features = features_s.apply(pandas.to_numeric,errors='coerce').fillna(0)
+values = data.loc[0:MAX_SIZE,['avg']].fillna(0)
 values = numpy.array(values)
-
-result = gradient_descent(features, values,None, +0.00000001, 5000)
+print(features)
+print(values)
+result = gradient_descent(features, values,None, +0.00000001, MAX_ITER)
 print(result[1])
 print(result[0])
